@@ -1,6 +1,14 @@
 import personService from "../services/persons"
 
-const PersonLine = ({ id, name, number, persons, setPersons, setPersonsDisplay }) => {
+const PersonLine = ({
+    id,
+    name,
+    number,
+    persons,
+    setPersons,
+    setPersonsDisplay,
+    setError,
+}) => {
 
     const handleDeletePerson = () => {
         const confirmDelete = window.confirm(`Delete ${name}?`)
@@ -8,13 +16,15 @@ const PersonLine = ({ id, name, number, persons, setPersons, setPersonsDisplay }
         if (confirmDelete) {
             personService
                 .remove(id)
-                .then(() => {
+                .then((returnedPerson) => {
                     const updatedPersons = persons.filter((person) => person.id !== id);
                     setPersons(updatedPersons)
                     setPersonsDisplay(updatedPersons)
+                    setError({ type: "success", message: `Successfully removed ${name}` })
                 })
                 .catch(error => {
                     alert(`Failed to remove id: ${id}, error: ` + error)
+                    setError({ type: "failed", message: `Failed to remove ${name}` })
                 })
         }
     }

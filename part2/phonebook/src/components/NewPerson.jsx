@@ -8,7 +8,8 @@ const NewPerson = ({
     newNumber,
     setNewNumber,
     setPersonsDisplay,
-    setFilterReset
+    setFilterReset,
+    setError,
 }) => {
 
     const handleNewPerson = () => {
@@ -22,6 +23,11 @@ const NewPerson = ({
                     const updatedPersons = [...persons, returnedPerson]
                     setPersons(updatedPersons)
                     setPersonsDisplay(updatedPersons)
+                    setError({ type: "success", message: `Successfully added ${returnedPerson.name}` })
+                })
+                .catch(error => {
+                    console.log("handleNewPerson error", error)
+                    setError({ type: "failed", message: `Failed to add ${newName}` })
                 })
         } else {
             const confirmReplace = window.confirm(newObject.name + " already exists in the phonebook, replace the old number with a new one?")
@@ -33,9 +39,11 @@ const NewPerson = ({
                         const updatedPersons = persons.map((person) => person.id !== returnedPerson.id ? person : returnedPerson)
                         setPersons(updatedPersons);
                         setPersonsDisplay(updatedPersons);
+                        setError({ type: "success", message: `Successfully updated ${returnedPerson.name}` })
                     })
                     .catch(error => {
                         console.log("handleNewPerson error", error);
+                        setError({ type: "failed", message: `Failed to update ${newName}` })
                     })
             }
         }

@@ -1,6 +1,12 @@
 import PersonLine from "./PersonLine"
 
-const Persons = ({ personsDisplay, setPersons, setPersonsDisplay, persons }) => {
+const Persons = ({
+    personsDisplay,
+    setPersons,
+    setPersonsDisplay,
+    persons,
+    setError,
+}) => {
     return (
         <>
             {personsDisplay.map((personDisplay) => (
@@ -12,6 +18,7 @@ const Persons = ({ personsDisplay, setPersons, setPersonsDisplay, persons }) => 
                     persons={persons}
                     setPersons={setPersons}
                     setPersonsDisplay={setPersonsDisplay}
+                    setError={setError}
                 ></PersonLine>
             ))}
         </>

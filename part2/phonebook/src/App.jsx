@@ -11,6 +11,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterReset, setFilterReset] = useState(false)
+  const [error, setError] = useState([])
+
 
   useEffect(() => {
     personService
@@ -28,6 +30,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {error && (
+        <div style={{ fontSize: "24px", color: error.type === "success" ? "green" : "red" }}>
+          {error.message}
+        </div>
+      )}
       <Search
         filterReset={filterReset}
         setFilterReset={setFilterReset}
@@ -43,6 +50,7 @@ const App = () => {
         setNewNumber={setNewNumber}
         setPersonsDisplay={setPersonsDisplay}
         setFilterReset={setFilterReset}
+        setError={setError}
       />
       <h2>Numbers</h2>
       <Persons
@@ -50,6 +58,7 @@ const App = () => {
         setPersons={setPersons}
         setPersonsDisplay={setPersonsDisplay}
         persons={persons}
+        setError={setError}
       />
     </div>
   )
