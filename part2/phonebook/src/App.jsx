@@ -3,23 +3,26 @@ import { useEffect, useState } from 'react'
 import NewPerson from './components/NewPerson'
 import Persons from './components/Persons'
 import Search from './components/Search'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
-
   const [personsDisplay, setPersonsDisplay] = useState([])
-
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterReset, setFilterReset] = useState(false)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-        setPersonsDisplay(response.data)
+    personService
+      .getAll()
+      .then(returnedPersons => {
+        setPersons(returnedPersons)
+        setPersonsDisplay(returnedPersons)
       })
+      .catch(error => {
+        alert("Failed to retrieve data", error)
+      })
+
   }, [])
 
   return (
@@ -42,7 +45,12 @@ const App = () => {
         setFilterReset={setFilterReset}
       />
       <h2>Numbers</h2>
-      <Persons personsDisplay={personsDisplay} />
+      <Persons
+        personsDisplay={personsDisplay}
+        setPersons={setPersons}
+        setPersonsDisplay={setPersonsDisplay}
+        persons={persons}
+      />
     </div>
   )
 }

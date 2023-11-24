@@ -1,10 +1,18 @@
 import PersonLine from "./PersonLine"
 
-const Persons = ({ personsDisplay }) => {
+const Persons = ({ personsDisplay, setPersons, setPersonsDisplay, persons }) => {
     return (
         <>
             {personsDisplay.map((personDisplay) => (
-                <PersonLine name={personDisplay.name} number={personDisplay.number} key={personDisplay.id}></PersonLine>
+                <PersonLine
+                    id={personDisplay.id}
+                    name={personDisplay.name}
+                    number={personDisplay.number}
+                    key={personDisplay.id}
+                    persons={persons}
+                    setPersons={setPersons}
+                    setPersonsDisplay={setPersonsDisplay}
+                ></PersonLine>
             ))}
         </>
     )

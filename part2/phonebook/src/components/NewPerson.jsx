@@ -1,4 +1,4 @@
-import { useState } from "react";
+import personService from "../services/persons";
 
 const NewPerson = ({
     persons,
@@ -10,20 +10,34 @@ const NewPerson = ({
     setPersonsDisplay,
     setFilterReset
 }) => {
-    const [newId, setNewId] = useState(0)
 
     const handleNewPerson = () => {
-        let updatedPersons = [...persons];
-        const newObject = { id: newId, name: newName, number: newNumber }
+        const newObject = { name: newName, number: newNumber }
         const existingName = persons.findIndex(person => person.name === newObject.name)
-        updatedPersons = [...persons, newObject]
 
         if (existingName === -1) {
-            setPersons(updatedPersons)
-            setPersonsDisplay(updatedPersons)
-            setNewId(newId + 1)
+            personService
+                .create(newObject)
+                .then((returnedPerson) => {
+                    const updatedPersons = [...persons, returnedPerson]
+                    setPersons(updatedPersons)
+                    setPersonsDisplay(updatedPersons)
+                })
         } else {
-            alert(newObject.name + " already exists in the phonebook")
+            const confirmReplace = window.confirm(newObject.name + " already exists in the phonebook, replace the old number with a new one?")
+            if (confirmReplace) {
+                const personId = persons[existingName].id
+                personService
+                    .update(personId, newObject)
+                    .then((returnedPerson) => {
+                        const updatedPersons = persons.map((person) => person.id !== returnedPerson.id ? person : returnedPerson)
+                        setPersons(updatedPersons);
+                        setPersonsDisplay(updatedPersons);
+                    })
+                    .catch(error => {
+                        console.log("handleNewPerson error", error);
+                    })
+            }
         }
         setFilterReset(true)
     }
