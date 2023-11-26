@@ -27,3 +27,9 @@ Example: JSON-Parser
 We can create middlewares, which is just a way of modifying the request or response objects. An example of a middleware we can create is something that checks the routes, if a request is made to a non-existing route, we can throw an error.
 
 `next()` is used to yield control to the next middleware
+
+### B - Deploying App
+# Same Origin Policy and CORS
+A security mechanism implemented by browsers in order to prevent session hijacking among other security vulnerabilities. The resources being fetched must share the same origin (scheme, host, port).
+
+CORS allows for legitimate cross-origin requests and can be used as a middleware by installing it and writing `app.use(cors())`
