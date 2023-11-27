@@ -11,6 +11,11 @@ There are different operations that can be used on resources:
 - PUT (replaces the entire identified resource with the request data)
 - PATCH (replaces a part of the identified resource with the request data)
 
+## Express
+Express is a minimal and flexible web application framework for Node.js, providing a set of tools and features of building web and mobile applications. Express simplifies the process of creating servers, handling HTTP requests and managing routes 
+
+Express allows you to define routes for your application, which tells the server how to respond to different requests. When using Axios for the frontend, it sends the request to the server and Express handles the request, which can be for example using mongoose to interact with a MongoDB database.
+
 ## The HTTP Standard 
 ### Safe 
 - The request does not cause any side effects on the server (any database change as a result of request)
