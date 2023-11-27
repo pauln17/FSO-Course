@@ -92,3 +92,26 @@ app.use(errorHandler)
 NOTE: The error handling middleware has to be passed as the last loaded middleware (app.use()) -- put at the bottom
 
 # D - Validation and ESLint
+Mongoose provides schema validation alongside custom validators in this format:
+
+```
+const schema = new mongoose.Schema({
+    test: {
+        type: String,
+        minLength: 5,
+        validate: {
+            validator: validatorFunction,
+            message: "errorMessage"
+        }
+    }
+})
+```
+
+Errors from the backend can be retrieved through the frontend by using `error.response.data.error`
+
+Ex.
+```
+.catch(error => {
+    console.log(error.response.data.error)
+})
+```
