@@ -33,3 +33,21 @@ We can create middlewares, which is just a way of modifying the request or respo
 A security mechanism implemented by browsers in order to prevent session hijacking among other security vulnerabilities. The resources being fetched must share the same origin (scheme, host, port).
 
 CORS allows for legitimate cross-origin requests and can be used as a middleware by installing it and writing `app.use(cors())`
+
+### C - Saving Data to MongoDB
+# MongoDB & Mongoose
+In order to store data indefinitely, we need a database. We can use MongoDB which is a document database, like the Firestore database. The reason we use this is due to it's lower complexity compared to relational databases
+
+The difference between document v. relation databases are in how they organize data and the query languages they support (document databases use NoSQL)
+
+Mongoose is an object document/data mapper (ODM) library for MongoDB and Node.js. Moongose is often used as a platform to help interact with MongoDB databases, providing schema-based solutions to model application data and includes other features such as validation, query building, and middleware support
+
+A schema is a way of telling the database how we want the data in an object to be stored in the database
+
+# Verifying Frontend and Backend Integration
+It is a good idea to always test the backend first, with the broswer, Postman, or the VS Code REST client. Once the backend has been verified, test the frontend works with the backend. It is highly inefficient otherwise to test the backend through the frontend
+
+# Error Handling w/ Middleware
+The `next()` function before was used to move onto the next route or middleware, but if it is given a parameter, then the execution will continue to the error handler middleware.
+
+NOTE: The error handling middleware has to be passed as the last loaded middleware (app.use()) -- put at the bottom
