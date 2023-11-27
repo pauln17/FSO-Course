@@ -24,7 +24,8 @@ const PersonLine = ({
                 })
                 .catch(error => {
                     alert(`Failed to remove id: ${id}, error: ` + error)
-                    setError({ type: "failed", message: `Failed to remove ${name}` })
+                    console.log(error.response.data.error)
+                    setError({ type: "failed", message: error.response.data.error })
                 })
         }
     }

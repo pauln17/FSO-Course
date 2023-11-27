@@ -90,3 +90,5 @@ app.use(errorHandler)
 ```
 
 NOTE: The error handling middleware has to be passed as the last loaded middleware (app.use()) -- put at the bottom
+
+# D - Validation and ESLint

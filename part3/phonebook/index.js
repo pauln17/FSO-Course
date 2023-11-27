@@ -46,7 +46,7 @@ app.get('/', (request, response) => {
     response.send('')
 })
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
     const currentDate = new Date().toLocaleString()
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     // const entries = persons.length
@@ -67,7 +67,7 @@ app.get('/info', (request, response) => {
         .catch(error => next(error))
 })
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
     // response.json(persons)
 
     Person
@@ -75,9 +75,10 @@ app.get('/api/persons', (request, response) => {
         .then(persons => {
             response.json(persons)
         })
+        .catch(error => next(error))
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
     // const id = Number(request.params.id)
     // const person = persons.find(person => person.id === id)
 
@@ -108,7 +109,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
         .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
     if (!body.name || !body.number) {
         return response.status(400).json({
@@ -152,7 +153,10 @@ app.put('/api/persons/:id', (request, response, next) => {
         number: body.number
     }
 
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    Person.findByIdAndUpdate(
+        request.params.id,
+        person,
+        { new: true, runValidators: true })
         .then(updatedPerson => {
             response.json(updatedPerson)
         })
@@ -170,6 +174,9 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })
+    }
+    if (error.name === 'ValidationError') {
+        return response.status(400).send({ error: error.message })
     }
 
     next(error)

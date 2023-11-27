@@ -27,7 +27,8 @@ const NewPerson = ({
                 })
                 .catch(error => {
                     console.log("handleNewPerson error", error)
-                    setError({ type: "failed", message: `Failed to add ${newName}` })
+                    console.log(error.response.data.error)
+                    setError({ type: "failed", message: error.response.data.error })
                 })
         } else {
             const confirmReplace = window.confirm(newObject.name + " already exists in the phonebook, replace the old number with a new one?")
@@ -43,7 +44,8 @@ const NewPerson = ({
                     })
                     .catch(error => {
                         console.log("handleNewPerson error", error);
-                        setError({ type: "failed", message: `Failed to update ${newName}` })
+                        console.log(error.response.data.error)
+                        setError({ type: "failed", message: error.response.data.error })
                     })
             }
         }
