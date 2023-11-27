@@ -48,7 +48,7 @@ app.get('/', (request, response) => {
 
 app.get('/info', (request, response, next) => {
     const currentDate = new Date().toLocaleString()
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
     // const entries = persons.length
 
     // response.send(`
@@ -103,7 +103,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
     // response.json(person)
 
     Person.findByIdAndDelete(request.params.id)
-        .then(result => {
+        .then(() => {
             response.status(204).end()
         })
         .catch(error => next(error))
@@ -164,10 +164,10 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 const unknownEndpoint = (request, response) => {
-    response.status(404).send({ error: "unknown endpoint" });
-};
+    response.status(404).send({ error: 'unknown endpoint' })
+}
 
-app.use(unknownEndpoint);
+app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)

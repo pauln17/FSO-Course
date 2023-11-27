@@ -39,7 +39,7 @@ if (process.argv.length === 3) {
 
     person
         .save()
-        .then(result => {
+        .then(() => {
             console.log('person saved')
             mongoose.connection.close()
         })
