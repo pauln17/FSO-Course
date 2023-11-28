@@ -9,3 +9,43 @@ A router object is an isolated instance of middleware and routes -- a mini-appli
 
 Moreover, we can store files that handle middleware or logging commands to the console within a utils folder. 
 
+## Testing Node Applications (JEST)
+Jest is a testing library/test runner for JavaScript created by Facebook and is a dev dependency.
+
+### Install
+`npm install --save-dev jest`
+### Scripts
+`"test": "jest --verbose"`
+### Configs
+#### package.json
+```
+"jest": {
+    "testEnvironment": "node"
+}
+```
+#### .eslintrc.js
+```
+module.exports = {
+    'env': {
+        'jest': true
+    }
+}
+```
+
+We can define the functions we use for testing in the utils folder: utils/for_testing.js
+
+In a separate folder named tests, we can define the test functions: tests/name.tests.js (.tests.js is required). In this file we can define tests. Furthermore, we can add tests within a describe block which allows us to group our tests in a category, making it clear in the console.
+
+```
+describe('test category name', () => {
+    test('test name', () => {
+        const a = []
+        const result = testFunction(a)
+
+        expect(result).toBe(0)
+    })
+
+    // other tests
+})
+```
+
