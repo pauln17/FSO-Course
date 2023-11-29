@@ -70,7 +70,8 @@ const api = supertest(app); // Use api.<method> to make a request
 The test imports the Express application from the app.js module and wraps it with the supertest function into a so called superagent object. This provides us with HTTP methods to create requests to different endpoints (the last line)
 
 ## Run Tests Individually
-It is important to run tests individually for several reasons, one being that each test is isolated and independent of each other, not relying on the state left by another test.
+It is important to run tests individually for several reasons, one being that each test is isolated and independent of each other, not relying on the state left by another test. To run tests individually:
+`npm run test -- -t <testFile> OR <testStringName>` (assuming test is set as a script for Jest)
 
 ## Async / Await
 1. Async Function (async):
@@ -83,3 +84,24 @@ As a result, this simplifies our code through avoiding clunky unclean chaining m
 
 ## Eliminating Try-Catch
 The express-async-errors library can be used in the app.js through `require('express-async-errors)` and handles try-catch under the hood, automatically catching errors and throwing it to the middleware.
+
+# C - User Administration
+Adding user authentication and connecting users to their blog posts would be simple within a relational database using foreign keys. But with document databases, there are multiple ways to approach this. We can reference the users collection in the blog posts collection, or the other way around, reference all the user's blog posts in an array under the user document. (ONE - MANY relationship: users can have many blogs, but blogs can not have many users)
+
+## Test Driven Development (TDD)
+TDD is a software development approach in which tests are written before the code that needs to be tested
+
+## Populate
+To work with the APi in such a way that when we make a HTTP GET request to the /api/users route, we want to retrieve all the blog documents not just their id in the blogs array field of users. This can be done with the populate method, which will replace the ids referencing another object with the referenced blog document.
+
+```
+usersRouter.get('/', async (request, response) => {
+  const users = await User
+    .find({}).populate('notes') // Can specify what content we want by adding a second argument, { Title: 1, Author: 1, URL: 1 }
+
+  response.json(users)
+})
+```
+
+# Token Authentication
+![Local Image](./token-authentication.png)
