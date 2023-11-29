@@ -80,6 +80,40 @@ describe('post requests', () => {
     })
 })
 
+describe('delete requests', () => {
+    test('verify blog is deleted by id', async () => {
+        const id = helper.initialBlogs[0]._id
+
+        const deletedBlog = await api
+            .delete(`/api/blogs/${id}`)
+            .expect(204)
+
+        const blogs = await helper.blogsInDb()
+        expect(blogs).toHaveLength(helper.initialBlogs.length - 1)
+        expect(blogs).not.toContain(deletedBlog)
+    })
+})
+
+describe('update requests', () => {
+    test('verify blog is updated by id', async () => {
+        const blogs = await helper.blogsInDb()
+        const blogToUpdate = blogs[0]
+        const id = blogToUpdate.id
+
+        const newBlog = {
+            ...blogToUpdate,
+            likes: 52
+        }
+        const response = await api
+            .put(`/api/blogs/${id}`)
+            .send(newBlog)
+            .expect(200)
+
+        const updatedBlog = response.body
+        expect(updatedBlog).toStrictEqual(newBlog)
+    })
+})
+
 afterAll(async () => {
     await mongoose.connection.close()
 })
