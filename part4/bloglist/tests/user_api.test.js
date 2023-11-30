@@ -20,7 +20,7 @@ describe('verify user info fetched is valid', () => {
     })
 })
 
-describe('post requests', () => {
+describe('post requests user', () => {
     test('verify invalid user w/o username not created', async () => {
         const newUser = {
             // "user": "Username",
@@ -33,7 +33,6 @@ describe('post requests', () => {
             .expect(400)
             .expect('Content-Type', /application\/json/)
 
-        console.log(response.body.error, "HEre is data")
         expect(response.body.error).toContain("User validation failed:")
 
         const users = await helper.usersInDb()
@@ -52,7 +51,6 @@ describe('post requests', () => {
             .expect(400)
             .expect('Content-Type', /application\/json/)
 
-        console.log(response.body.error, "HEre is data")
         expect(response.body.error).toContain("User validation failed:")
 
         const users = await helper.usersInDb()

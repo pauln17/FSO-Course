@@ -8,7 +8,7 @@ const initialBlogs = [
         author: "Robert C. Martin",
         url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
         likes: 2,
-        users: [],
+        users: "6567cc70dc4b1b5659da9a2c",
         __v: 0
     },
     {
@@ -17,7 +17,7 @@ const initialBlogs = [
         author: "Robert C. Martin",
         url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
         likes: 10,
-        users: [],
+        users: "6567cc70dc4b1b5659da9a2c",
         __v: 0
     },
     {
@@ -26,7 +26,7 @@ const initialBlogs = [
         author: "Edsger W. Dijkstra",
         url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
         likes: 11,
-        users: [],
+        users: "3e8e062bf09a7e2cc1c51e4d",
         __v: 0
     },
 ]

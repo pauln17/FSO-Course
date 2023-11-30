@@ -4,6 +4,10 @@ const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const bcrypt = require('bcrypt')
+const config = require('../utils/config')
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -29,7 +33,20 @@ describe('get requests', () => {
     })
 })
 
-describe('post requests', () => {
+describe('post requests blogs', () => {
+    let token;
+    beforeAll(async () => {
+        await User.deleteMany({})
+
+        const passwordhash = await bcrypt.hash("Password", 10)
+        const user = await new User({ username: "User", passwordhash }).save()
+
+        const userForToken = { username: "User", id: user.id }
+        token = jwt.sign(userForToken, config.SECRET)
+
+        return token
+    })
+
     test('verify blog is created in database', async () => {
         const newBlog = {
             title: "Title",
@@ -40,6 +57,7 @@ describe('post requests', () => {
 
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect("Content-Type", /application\/json/)
@@ -61,6 +79,7 @@ describe('post requests', () => {
 
         const response = await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect("Content-Type", /application\/json/)
@@ -76,7 +95,20 @@ describe('post requests', () => {
         await api
             .post('/api/blogs')
             .send(newBlog)
-            .expect(400)
+            .expect(401)
+    })
+
+    test('verify create blog without token gives 401 error', async () => {
+        const newBlog = {
+            title: "Title",
+            author: "Author",
+            url: "URL"
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(401)
     })
 })
 
