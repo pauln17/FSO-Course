@@ -8,6 +8,7 @@ const initialBlogs = [
         author: "Robert C. Martin",
         url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
         likes: 2,
+        users: [],
         __v: 0
     },
     {
@@ -16,6 +17,7 @@ const initialBlogs = [
         author: "Robert C. Martin",
         url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
         likes: 10,
+        users: [],
         __v: 0
     },
     {
@@ -24,6 +26,7 @@ const initialBlogs = [
         author: "Edsger W. Dijkstra",
         url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
         likes: 11,
+        users: [],
         __v: 0
     },
 ]
@@ -34,7 +37,7 @@ const initialUsers = [
         "username": "User",
         "name": "Name",
         "passwordHash": "$2b$10$wCYktFAeAo2qOQMtF.1QN.Kc7K4gIFhkv6RyIoR1ExvKu/EZfDZti",
-        "notes": [],
+        "blogs": [],
         "__v": 0
     },
     {
@@ -42,7 +45,7 @@ const initialUsers = [
         "username": "User2",
         "name": "Name2",
         "passwordHash": "$2b$10$wCYktFAeAo2qOQMtF.1QN.Kc7K4gIFhkv6RyIoR1ExvKu/EZfDZti",
-        "notes": [],
+        "blogs": [],
         "__v": 0
     },
     {
@@ -50,7 +53,7 @@ const initialUsers = [
         "username": "User3",
         "name": "Name3",
         "passwordHash": "$2b$10$wCYktFAeAo2qOQMtF.1QN.Kc7K4gIFhkv6RyIoR1ExvKu/EZfDZti",
-        "notes": [],
+        "blogs": [],
         "__v": 0
     }
 ]
