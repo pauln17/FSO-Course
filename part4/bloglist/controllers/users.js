@@ -1,4 +1,4 @@
-const bcryptjs = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 
@@ -10,8 +10,13 @@ usersRouter.get('/', async (request, response) => {
 usersRouter.post('/', async (request, response) => {
     const { username, name, password } = request.body
 
+    if (!password || password.length < 3) {
+        return response.status(400).json({
+            error: "User validation failed: password: Path `password` is required"
+        })
+    }
     const saltRounds = 10
-    const passwordHash = await bcryptjs.hash(password, saltRounds)
+    const passwordHash = await bcrypt.hash(password, saltRounds)
 
     const user = new User({
         username,
