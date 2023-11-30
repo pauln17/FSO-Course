@@ -104,4 +104,34 @@ usersRouter.get('/', async (request, response) => {
 ```
 
 # Token Authentication
+To allow users to log into our application and implement additional features, such as attaching user information to any new blogs they create or vice versa, we can use token-based authentication through the jsonwebtoken library.
+
 ![Local Image](./token-authentication.png)
+
+We can create a post request to the route /api/logins, which takes a request with the username and the user's password and verifies if the user exists, as well as the correct password. (bcrypt offers a compare function that compares a password with the password hash value)
+
+If the user and password are valid, we can create a payload for the token to sign, which also stores the information we want to retrieve later to verify the token.
+
+Payload:
+```
+const userForToken = {
+    username: user.username,
+    id: user._id,
+}
+```
+
+We can then use the jwt.sign function which takes the payload to be signed, and the secret key allowing only certain people to access the function (stored in ENV) to generate a JWT.
+`const token = jwt.sign(userForToken, process.env.SECRET)`
+
+We can verify the token when creating a blog post now:
+`const decodedToken = jwt.verify(getTokenFrom(request), config.SECRET)`
+
+getTokenFrom is a function that takes the request and retrieves the token from the Authorization header.
+
+We can access the user's id through decodedToken.id, or the username through decodedToken.username, since we specified it earlier when we created the payload to be signed.
+
+## Problems of Token-Based Authentication
+Once a React app gets a token, the API has a blind trust to the token holder, what if those rights should be revoked? A solution to this is the validity period of a token:
+`const token = jwt.sign(userForToken, process.env.SECRET, {expiresIn: 60*60})`
+
+This means that the token will expire in 60*60 seconds, so one hour. Once this expires, the user will have to re-login to get a new token. The shorter the expiration time, the safer it is, but it causes more pain to the user.
