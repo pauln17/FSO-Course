@@ -7,6 +7,10 @@ import BlogForm from './components/BlogForm'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [message, setMessage] = useState({
+    text: "",
+    type: ""
+  })
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -31,14 +35,16 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
+      {message &&
+        <div style={{ color: message.type === 'fail' ? 'red' : 'green' }}>{message.text}</div>}
       {!user ?
         <>
-          <Login setUser={setUser} />
+          <Login setUser={setUser} setMessage={setMessage} />
         </>
         :
         <>
           <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-          <BlogForm />
+          <BlogForm setMessage={setMessage} />
           {
             blogs.map(blog =>
               <Blog key={blog.id} blog={blog} />

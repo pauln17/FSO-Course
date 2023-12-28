@@ -2,7 +2,7 @@ import { useState } from "react"
 import loginService from "../services/logins"
 import blogService from "../services/blogs"
 
-const Login = ({ setUser }) => {
+const Login = ({ setUser, setMessage }) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
@@ -23,7 +23,14 @@ const Login = ({ setUser }) => {
             setPassword('')
         } catch (exception) {
             console.log("handleLogin error: ", exception)
+            setMessage({
+                text: `Invalid credentials`,
+                type: 'fail'
+            })
         }
+        setTimeout(() => {
+            setMessage({ text: '', type: '' })
+        }, 5000)
     }
 
     return (
