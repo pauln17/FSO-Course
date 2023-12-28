@@ -56,3 +56,29 @@ const create = async (newObject) => {
 
 export default { setToken, create}
 ```
+
+# B - Props, Children and Prototypes
+## props.children
+A component can contain other components or elements and is automatically added by React as children. For example:
+```
+<Test>
+    // ...another component
+    // ...div
+</Test>
+```
+
+The props.children is now an array that contains the children of the Test component. If there was no corresponding closing tag, then the props.children array would be empty.
+
+The children can then be extracted within the actual component itself and display such as through `{props.children}`
+
+## State of the Forms
+When we want the state of two components to always change together, remove state from both of them and move it to their common closest parent and pass it down to them via props. This is known as lifting state up and is a common practice when writing React code.
+
+## Reference Hooks
+useRef, forwardRef and useImperativeHandle are three React hooks that are often used in conjunction to work with references in functional components.
+
+useRef creates a mutable object called a ref object, which has a current property. The current property can be assigned any value, and it persists between renders. It's commonly used for accessing and interacting with the DOM directly or for persisting values across renders without causing a re-render.
+
+forwardRef is a higher-order component that allows you to pass a ref down to a child component. It is useful when you need to access or manage the state of a child component from its parent.
+
+useImperativeHandle customizes the instance value that is exposed when using forwardRef. It allows you to specify what values or methods should be accessible on the ref object passed to the parent component.
