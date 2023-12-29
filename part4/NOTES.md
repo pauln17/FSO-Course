@@ -135,3 +135,18 @@ Once a React app gets a token, the API has a blind trust to the token holder, wh
 `const token = jwt.sign(userForToken, process.env.SECRET, {expiresIn: 60*60})`
 
 This means that the token will expire in 60*60 seconds, so one hour. Once this expires, the user will have to re-login to get a new token. The shorter the expiration time, the safer it is, but it causes more pain to the user.
+
+# Extra Notes
+## Mongoose ObjectId
+In the database, we can find that our id is listed as _id. So shouldn't we retrieve it as user._id for example? We can make this easier for us by transforming the document before it is sent as a response in JSON format:
+```
+userSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString() <---
+        delete returnedObject._id
+        delete returnedObject.__v
+        // the passwordHash should not be revealed
+        delete returnedObject.passwordHash
+    }
+})
+```

@@ -22,9 +22,6 @@ const Blog = ({ blog, setBlogs, user }) => {
   const [view, setView] = useState(false)
   const [correctUser, setCorrectUser] = useState(false)
 
-  console.log(user, 'here is user')
-  console.log(blog.user.id, 'here is blog')
-
   useEffect(() => {
     if (user.id === blog.user.id) {
       setCorrectUser(true);
