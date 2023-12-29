@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
+import userService from './services/users'
 import Login from './components/Login'
 import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [users, setUsers] = useState([])
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState({
     text: "",
@@ -15,6 +17,11 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
+    )
+
+
+    userService.getAll().then(users =>
+      setUsers(users)
     )
   }, [])
 
@@ -27,6 +34,7 @@ const App = () => {
     }
   }, [])
 
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
   const handleLogout = () => {
     window.location.reload()
     window.localStorage.clear()
@@ -44,10 +52,10 @@ const App = () => {
         :
         <>
           <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-          <BlogForm setMessage={setMessage} />
+          <BlogForm setMessage={setMessage} setBlogs={setBlogs} />
           {
-            blogs.map(blog =>
-              <Blog key={blog.id} blog={blog} />
+            sortedBlogs.map(blog =>
+              <Blog key={blog.id} user={user} blog={blog} setBlogs={setBlogs} />
             )
           }
         </>

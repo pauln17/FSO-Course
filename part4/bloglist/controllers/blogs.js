@@ -13,7 +13,7 @@ blogsRouter.get('/:id', async (request, response) => {
     const blog = await Blog.findById(request.params.id)
 
     if (blog) {
-        response.status(204).json(blog)
+        response.status(200).json(blog)
     } else {
         response.status(404).end()
     }
@@ -77,8 +77,10 @@ blogsRouter.put('/:id', async (request, response) => {
     const blog = request.body
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
 
+    const populatedBlog = await updatedBlog.populate('user', { blogs: 0 })
+
     if (updatedBlog) {
-        response.status(200).json(updatedBlog)
+        response.status(200).json(populatedBlog)
     } else {
         response.status(404).end()
     }
