@@ -163,3 +163,20 @@ test('renders content', () => {
 ```
 
 With this method, React components which are normally rendered to the DOM, this allows us to test components without the need to render to the DOM.
+
+## User Events
+We can simulate user events such as clicking or typing through the use of the user-events library, which is installed via `npm install --save-dev @testing-library/user-event` and can be used like so:
+```
+const user = userEvent.setup()
+
+// Clicking
+const button = screen.getByText('make not important')
+await user.click(button)
+
+// Typing
+const input = screen.getByPlaceholderText('write note content here')
+userEvent.type(input, 'testing a form...')
+```
+
+## Test Coverage
+The command `npm test -- --coverage --collectCoverageFrom='src/**/*.{jsx,js}'` displays a table that shows you how much your tests cover amongst each file.

@@ -9,6 +9,9 @@ A router object is an isolated instance of middleware and routes -- a mini-appli
 
 Moreover, we can store files that handle middleware or logging commands to the console within a utils folder. 
 
+## Unit Testing
+Unit tests are focused on verifying the correctness of individual units or components of a software application in isolation. They aim to ensure that each unit (such as functions, methods, or classes) behaves as expected when tested independently. 
+
 ## Testing Node Applications (JEST)
 Jest is a testing library/test runner for JavaScript created by Facebook and is a dev dependency.
 
@@ -53,6 +56,9 @@ describe('test category name', () => {
 Lodash is a JavaScript utility library that provides functions for common programming tasks related to working with arrays, objects, strings and functions. This allows for simplifying complex operations
 
 # B - Testing Backend
+## Integration Testing
+Integration tests are designed to verify the interactions between multiple units or components of a software application. Their primary goal is to uncover issues that may arise when combining various parts of the system, ensuring seamless integration. 
+
 ## Test Environment
 The convention in Node is to define the execution mode of the application with NODE_ENV in our scripts: `"dev": NODE_ENV=test jest --verbose --runInBand`
 
