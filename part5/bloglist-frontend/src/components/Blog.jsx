@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react"
-import blogService from "../services/blogs"
+import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import blogService from '../services/blogs'
 
 const Blog = ({ blog, setBlogs, user }) => {
   const blogStyle = {
@@ -24,11 +25,11 @@ const Blog = ({ blog, setBlogs, user }) => {
 
   useEffect(() => {
     if (user.id === blog.user.id) {
-      setCorrectUser(true);
+      setCorrectUser(true)
     } else {
-      setCorrectUser(false);
+      setCorrectUser(false)
     }
-  }, [user, blog]);
+  }, [user, blog])
 
   const handleLikes = async () => {
     const updatedBlogInfo = { ...blog, user: blog.user['id'], likes: blog.likes + 1 }
@@ -40,7 +41,7 @@ const Blog = ({ blog, setBlogs, user }) => {
         prevBlogs.map(prevBlog =>
           prevBlog.id === blog.id ? updatedBlog : prevBlog
         )
-      );
+      )
     } catch (error) {
       console.log('handleLikes error: ', error)
     }
@@ -48,13 +49,13 @@ const Blog = ({ blog, setBlogs, user }) => {
 
   const handleDelete = async () => {
     const shouldRemove = window.confirm(`Are you sure you want to delete ${blog.title} by ${blog.author}?`)
-    if (!shouldRemove) return;
+    if (!shouldRemove) return
 
     try {
 
       await blogService.remove(blog.id)
 
-      setBlogs(prevBlogs => prevBlogs.filter(prevBlog => prevBlog.id !== blog.id));
+      setBlogs(prevBlogs => prevBlogs.filter(prevBlog => prevBlog.id !== blog.id))
     } catch (error) {
       console.log('handleDelete error: ', error)
     }
@@ -94,6 +95,25 @@ const Blog = ({ blog, setBlogs, user }) => {
       }
     </div >
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.shape({
+    // Define the structure of the 'blog' object
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired, // Assuming 'user' is an object
+  }).isRequired,
+  // Define the setBlogs function
+  setBlogs: PropTypes.func.isRequired,
+  // Define the structure of the 'user' object
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default Blog

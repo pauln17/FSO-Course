@@ -10,8 +10,8 @@ const App = () => {
   const [users, setUsers] = useState([])
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState({
-    text: "",
-    type: ""
+    text: '',
+    type: ''
   })
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const App = () => {
     }
   }, [])
 
-  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
   const handleLogout = () => {
     window.location.reload()
     window.localStorage.clear()
