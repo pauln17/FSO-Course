@@ -82,3 +82,84 @@ useRef creates a mutable object called a ref object, which has a current propert
 forwardRef is a higher-order component that allows you to pass a ref down to a child component. It is useful when you need to access or manage the state of a child component from its parent.
 
 useImperativeHandle customizes the instance value that is exposed when using forwardRef. It allows you to specify what values or methods should be accessible on the ref object passed to the parent component.
+
+## Prop Types
+We can define the type of a prop and whether it is required or not using the `prop-types` library.
+
+An example:
+```
+import PropTypes from 'prop-types'
+
+const Blog = ({ blog, setBlogs, user }) => {
+ // ...
+}
+
+Blog.propTypes = {
+  blog: PropTypes.shape({
+    // Define the structure of the 'blog' object
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired, // Assuming 'user' is an object
+  }).isRequired,
+  // Define the setBlogs function
+  setBlogs: PropTypes.func.isRequired,
+  // Define the structure of the 'user' object
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+  }).isRequired,
+}
+```
+
+# C - Testing React Apps
+In addition to Jest, we require another testing library to help us render components for testing purposes. This can be achieved using `react-testing-library`.
+
+Installalation: `npm install --save-dev @testing-library/react @testing-library/jest-dom jest jest-environment-jsdom @babel/preset-env @babel/preset-react`
+
+The files package.json should be extended:
+```
+{
+  "scripts": {
+    // ...
+    "test": "jest"
+  }
+  // ...
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
+}
+```
+and .babelrc should be added:
+```
+{
+  "presets": [
+    "@babel/preset-env",
+    ["@babel/preset-react", { "runtime": "automatic" }]
+  ]
+}
+```
+
+Usage:
+```
+import React from 'react'
+import '@testing-library/jest-dom'
+import { render, screen } from '@testing-library/react'
+import Note from './Note'
+
+test('renders content', () => {
+  const note = {
+    content: 'Component testing is done with react-testing-library',
+    important: true
+  }
+
+  render(<Note note={note} />)
+
+  const element = screen.getByText('Component testing is done with react-testing-library')
+  expect(element).toBeDefined()
+})
+```
+
+With this method, React components which are normally rendered to the DOM, this allows us to test components without the need to render to the DOM.

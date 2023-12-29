@@ -40,6 +40,68 @@ const App = () => {
     window.localStorage.clear()
   }
 
+  const addBlog = async (e) => {
+    e.preventDefault()
+    try {
+      const blog = await blogService.create({
+        title,
+        author,
+        url,
+      })
+
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setVisible(false)
+      setMessage({
+        text: `A new blog has been added: ${blog.title} by ${blog.author}`,
+        type: 'success'
+      })
+      blogService.getAll().then(blogs =>
+        setBlogs(blogs)
+      )
+    } catch (exception) {
+      console.log('addBlog error: ', exception)
+      setMessage({
+        text: 'Failed to create new blog',
+        type: 'fail'
+      })
+    }
+    setTimeout(() => {
+      setMessage({ text: '', type: '' })
+    }, 5000)
+  }
+
+  const handleLikes = async () => {
+    const updatedBlogInfo = { ...blog, user: blog.user['id'], likes: blog.likes + 1 }
+
+    try {
+      const updatedBlog = await blogService.update(blog.id, updatedBlogInfo)
+
+      setBlogs(prevBlogs =>
+        prevBlogs.map(prevBlog =>
+          prevBlog.id === blog.id ? updatedBlog : prevBlog
+        )
+      )
+    } catch (error) {
+      console.log('handleLikes error: ', error)
+    }
+  }
+
+  const handleDelete = async () => {
+    const shouldRemove = window.confirm(`Are you sure you want to delete ${blog.title} by ${blog.author}?`)
+    if (!shouldRemove) return
+
+    try {
+
+      await blogService.remove(blog.id)
+
+      setBlogs(prevBlogs => prevBlogs.filter(prevBlog => prevBlog.id !== blog.id))
+    } catch (error) {
+      console.log('handleDelete error: ', error)
+    }
+  }
+
   return (
     <div>
       <h2>Blogs</h2>
@@ -52,10 +114,10 @@ const App = () => {
         :
         <>
           <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-          <BlogForm setMessage={setMessage} setBlogs={setBlogs} />
+          <BlogForm setMessage={setMessage} addBlog={addBlog} />
           {
             sortedBlogs.map(blog =>
-              <Blog key={blog.id} user={user} blog={blog} setBlogs={setBlogs} />
+              <Blog key={blog.id} user={user} blog={blog} handleLikes={handleLikes} handleDelete={handleDelete} />
             )
           }
         </>

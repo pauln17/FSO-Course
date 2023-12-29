@@ -2,43 +2,11 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 
-const BlogForm = ({ setMessage, setBlogs }) => {
+const BlogForm = ({ addBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [visible, setVisible] = useState(false)
-
-  const addBlog = async (e) => {
-    e.preventDefault()
-    try {
-      const blog = await blogService.create({
-        title,
-        author,
-        url,
-      })
-
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      setVisible(false)
-      setMessage({
-        text: `A new blog has been added: ${blog.title} by ${blog.author}`,
-        type: 'success'
-      })
-      blogService.getAll().then(blogs =>
-        setBlogs(blogs)
-      )
-    } catch (exception) {
-      console.log('addBlog error: ', exception)
-      setMessage({
-        text: 'Failed to create new blog',
-        type: 'fail'
-      })
-    }
-    setTimeout(() => {
-      setMessage({ text: '', type: '' })
-    }, 5000)
-  }
 
   return (
     <>
@@ -56,6 +24,7 @@ const BlogForm = ({ setMessage, setBlogs }) => {
               type="text"
               value={title}
               name="Title"
+              placeholder="Title"
               onChange={({ target }) => setTitle(target.value)}
             />
           </div>
@@ -65,6 +34,7 @@ const BlogForm = ({ setMessage, setBlogs }) => {
               type="text"
               value={author}
               name="Author"
+              placeholder="Author"
               onChange={({ target }) => setAuthor(target.value)}
             />
           </div>
@@ -74,6 +44,7 @@ const BlogForm = ({ setMessage, setBlogs }) => {
               type="text"
               value={url}
               name="Url"
+              placeholder="Url"
               onChange={({ target }) => setUrl(target.value)}
             />
           </div>
@@ -92,8 +63,7 @@ const BlogForm = ({ setMessage, setBlogs }) => {
 }
 
 BlogForm.propTypes = {
-  setMessage: PropTypes.func.isRequired,
-  setBlogs: PropTypes.func.isRequired,
+  addBlog: PropTypes.func.isRequired,
 }
 
 export default BlogForm
