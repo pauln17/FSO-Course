@@ -32,7 +32,7 @@ const Blog = ({ blog, handleLikes, handleDelete, user }) => {
   }, [user, blog])
 
   return (
-    <div style={blogStyle}>
+    <div className="blog" style={blogStyle}>
       Title: {blog.title}
       {view ?
         <button style={buttonStyle} onClick={() => setView(false)}>hide</button>
