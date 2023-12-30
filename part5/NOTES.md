@@ -181,4 +181,8 @@ userEvent.type(input, 'testing a form...')
 ## Test Coverage
 The command `npm test -- --coverage --collectCoverageFrom='src/**/*.{jsx,js}'` displays a table that shows you how much your tests cover amongst each file.
 
-# E2E Testing
+# D - E2E Testing
+End-to-End tests, or E2E tests, are a way of verifying your code’s deployed behavior from a user perspective. You automate a user simulation that interacts with your system as a black box, so all that matters is whether the user’s actions correspond to the correct output in a timely manner. These tests are typically done in a dev or staging environment, in order to match the production user interactions as closely as possible.
+
+## Cypress
+Cypress is a JavaScript-based end-to-end testing framework for web applications. It offers a developer-friendly environment, real-time browser automation, automatic waiting, and interactive debugging.
