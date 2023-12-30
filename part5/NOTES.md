@@ -180,3 +180,5 @@ userEvent.type(input, 'testing a form...')
 
 ## Test Coverage
 The command `npm test -- --coverage --collectCoverageFrom='src/**/*.{jsx,js}'` displays a table that shows you how much your tests cover amongst each file.
+
+# E2E Testing

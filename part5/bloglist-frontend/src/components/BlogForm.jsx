@@ -2,11 +2,17 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 
-const BlogForm = ({ addBlog }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-  const [visible, setVisible] = useState(false)
+const BlogForm = ({
+  addBlog,
+  visible,
+  setVisible,
+  title,
+  setTitle,
+  author,
+  setAuthor,
+  url,
+  setUrl,
+}) => {
 
   return (
     <>

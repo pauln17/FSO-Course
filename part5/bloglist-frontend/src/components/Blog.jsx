@@ -40,7 +40,7 @@ const Blog = ({ blog, handleLikes, handleDelete, user }) => {
         <button style={buttonStyle} onClick={() => setView(true)}>view</button>
       }
       {correctUser &&
-        <button style={buttonStyle} onClick={handleDelete}>remove</button>
+        <button style={buttonStyle} onClick={() => handleDelete(blog)}>remove</button>
       }
 
       {
@@ -55,7 +55,7 @@ const Blog = ({ blog, handleLikes, handleDelete, user }) => {
             </div>
             <div>
               Likes: {blog.likes}
-              <button style={buttonStyle} onClick={handleLikes}>like</button>
+              <button style={buttonStyle} onClick={() => handleLikes(blog)}>like</button>
             </div>
             <div>
               Creator: {blog.user.name}

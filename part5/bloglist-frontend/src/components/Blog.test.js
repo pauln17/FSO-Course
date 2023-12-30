@@ -11,25 +11,28 @@ describe('blog component tests', () => {
         url: 'Test Url',
         likes: 0,
         user: {
-            id: "658cf70fed4553c898383c73",
-            name: "Name",
-            username: "Username"
+            id: '658cf70fed4553c898383c73',
+            name: 'Name',
+            username: 'Username'
         }
     }
 
     const userData = {
-        id: "658cf70fed4553c898383c73",
-        name: "Name",
-        username: "Username"
+        id: '658cf70fed4553c898383c73',
+        name: 'Name',
+        username: 'Username'
     }
 
-    const mockAddBlogs = jest.fn()
+    let container
     const mockHandleLikes = jest.fn()
     const mockHandleDelete = jest.fn()
 
-    test('renders only blog title by default', async () => {
-        const { container } = render(<Blog blog={blog} user={userData} handleLikes={mockHandleLikes} handleDelete={mockHandleDelete} />)
+    beforeEach(() => {
+        const component = render(<Blog blog={blog} user={userData} handleLikes={mockHandleLikes} handleDelete={mockHandleDelete} />)
+        container = component.container
+    })
 
+    test('renders only blog title by default', async () => {
         expect(container).toHaveTextContent('Test Title')
         expect(container).not.toHaveTextContent('Test Author')
         expect(container).not.toHaveTextContent('Test Url')
@@ -37,9 +40,6 @@ describe('blog component tests', () => {
     })
 
     test('renders blog information when show button is clicked', async () => {
-        const { container } = render(<Blog blog={blog} user={userData} handleLikes={mockHandleLikes} handleDelete={mockHandleDelete} />)
-
-
         const user = userEvent.setup()
         const showButton = screen.getByText('view')
         await user.click(showButton)
@@ -50,8 +50,6 @@ describe('blog component tests', () => {
     })
 
     test('event handle for likes is called twice if like button is clicked twice', async () => {
-        render(<Blog blog={blog} user={userData} handleLikes={mockHandleLikes} handleDelete={mockHandleDelete} />)
-
         const user = userEvent.setup()
         const showButton = screen.getByText('view')
         await user.click(showButton)
@@ -62,5 +60,13 @@ describe('blog component tests', () => {
 
 
         expect(mockHandleLikes.mock.calls).toHaveLength(2)
+    })
+
+    test('event handle for deleting blogs is called', async () => {
+        const user = userEvent.setup()
+        const deleteButton = screen.getByText('remove')
+        await user.click(deleteButton)
+
+        expect(mockHandleDelete.mock.calls).toHaveLength(1)
     })
 })

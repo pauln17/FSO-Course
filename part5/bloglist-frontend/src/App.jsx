@@ -14,6 +14,11 @@ const App = () => {
     type: ''
   })
 
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+  const [visible, setVisible] = useState(false)
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
@@ -72,7 +77,7 @@ const App = () => {
     }, 5000)
   }
 
-  const handleLikes = async () => {
+  const handleLikes = async (blog) => {
     const updatedBlogInfo = { ...blog, user: blog.user['id'], likes: blog.likes + 1 }
 
     try {
@@ -88,12 +93,11 @@ const App = () => {
     }
   }
 
-  const handleDelete = async () => {
+  const handleDelete = async (blog) => {
     const shouldRemove = window.confirm(`Are you sure you want to delete ${blog.title} by ${blog.author}?`)
     if (!shouldRemove) return
 
     try {
-
       await blogService.remove(blog.id)
 
       setBlogs(prevBlogs => prevBlogs.filter(prevBlog => prevBlog.id !== blog.id))
@@ -114,10 +118,26 @@ const App = () => {
         :
         <>
           <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-          <BlogForm setMessage={setMessage} addBlog={addBlog} />
+          <BlogForm
+            addBlog={addBlog}
+            visible={visible}
+            setVisible={setVisible}
+            title={title}
+            setTitle={setTitle}
+            author={author}
+            setAuthor={setAuthor}
+            url={url}
+            setUrl={setUrl}
+          />
           {
             sortedBlogs.map(blog =>
-              <Blog key={blog.id} user={user} blog={blog} handleLikes={handleLikes} handleDelete={handleDelete} />
+              <Blog
+                key={blog.id}
+                user={user}
+                blog={blog}
+                handleLikes={handleLikes}
+                handleDelete={handleDelete}
+              />
             )
           }
         </>
