@@ -29,8 +29,7 @@ blogsRouter.post('/', async (request, response) => {
         })
     }
 
-    const user = request.user
-    console.log(user, "here is user")
+    const user = await User.findById(decodedToken.id)
 
     const blog = new Blog({
         title: body.title,
@@ -65,8 +64,7 @@ blogsRouter.delete('/:id', async (request, response) => {
 
     await Blog.findByIdAndRemove(request.params.id)
 
-    const user = request.user
-    console.log(user, "here is user")
+    const user = await User.findById(decodedToken.id)
     user.blogs.pull(request.params.id);
     await user.save();
 
